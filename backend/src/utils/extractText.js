@@ -1,11 +1,7 @@
 import fs from "fs";
-import { createRequire } from "module";
 import Tesseract from "tesseract.js";
 import mammoth from "mammoth";
-
-const require = createRequire(import.meta.url);
-const pdfParseModule = require("pdf-parse");
-const pdfParse = pdfParseModule.default || pdfParseModule;
+import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 
 export const extractTextFromFile = async (file) => {
   const filePath = file.path;
@@ -16,9 +12,19 @@ export const extractTextFromFile = async (file) => {
   }
 
   if (mimeType === "application/pdf") {
-    const dataBuffer = fs.readFileSync(filePath);
-    const pdfData = await pdfParse(dataBuffer);
-    return pdfData.text;
+    const data = new Uint8Array(fs.readFileSync(filePath));
+    const pdf = await pdfjsLib.getDocument({ data }).promise;
+
+    let text = "";
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const pageText = content.items.map((item) => item.str).join(" ");
+      text += pageText + "\n";
+    }
+
+    return text.trim();
   }
 
   if (
@@ -30,15 +36,17 @@ export const extractTextFromFile = async (file) => {
   }
 
   if (
-    mimeType === "image/png" ||
-    mimeType === "image/jpeg" ||
-    mimeType === "image/jpg"
-  ) {
-    const result = await Tesseract.recognize(filePath, "eng");
-    return result.data.text;
-  }
-
-  throw new Error(
-    `Unsupported file type: ${mimeType}. Please upload TXT, PDF, DOCX, PNG, JPG, or JPEG.`
+  mimeType === "image/png" ||
+  mimeType === "image/jpeg" ||
+  mimeType === "image/jpg"
+) {
+  const result = await Tesseract.recognize(
+    filePath,
+    "eng"
   );
+
+  return result.data.text;
+}
+
+  throw new Error("Unsupported file type. Please upload TXT, PDF, or DOCX files.");
 };

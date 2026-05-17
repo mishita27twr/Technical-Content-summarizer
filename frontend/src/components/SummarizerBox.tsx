@@ -209,7 +209,7 @@ export default function SummarizerBox() {
                 <p className="text-muted-foreground text-sm">
                   {file
                     ? `${(file.size / 1024).toFixed(1)} KB`
-                    : "Supports TXT files"}
+                    : "Supports TXT, PDF, DOCX, JPG, JPEG, PNG"}
                 </p>
               </div>
             </motion.div>
