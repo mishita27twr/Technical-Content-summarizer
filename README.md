@@ -14,7 +14,7 @@
 #  Live Demo
 
 <p align="center">
-  <a href="https://technical-content-summarizer.vercel.app/" target="_blank">
+  <a href="https://technical-content-summarizer-j146.vercel.app/" target="_blank">
     <img src="https://img.shields.io/badge/Live-Demo-6C63FF?style=for-the-badge" alt="Live Demo"/>
   </a>
 </p>
