@@ -2,12 +2,13 @@ import axios from "axios";
 
 const API_BASE_URL =
   import.meta.env.VITE_API_URL || "http://localhost:5000";
-  
+
 export type SummaryType = "Short" | "Detailed" | "Bullets";
 
 export interface SummaryResponse {
   success?: boolean;
   summary: string;
+  sessionId: string;
   error?: string;
   message?: string;
 }
@@ -16,7 +17,7 @@ export const summarizeApi = {
   summarizeText: async (
     text: string,
     summaryType: SummaryType
-  ): Promise<string> => {
+  ): Promise<SummaryResponse> => {
     try {
       const response = await axios.post<SummaryResponse>(
         `${API_BASE_URL}/api/summarize`,
@@ -30,7 +31,7 @@ export const summarizeApi = {
         throw new Error(response.data.error);
       }
 
-      return response.data.summary;
+      return response.data;
     } catch (error: any) {
       throw new Error(
         error.response?.data?.error ||
@@ -44,7 +45,7 @@ export const summarizeApi = {
   summarizeFile: async (
     file: File,
     summaryType: SummaryType
-  ): Promise<string> => {
+  ): Promise<SummaryResponse> => {
     try {
       const formData = new FormData();
 
@@ -65,7 +66,7 @@ export const summarizeApi = {
         throw new Error(response.data.error);
       }
 
-      return response.data.summary;
+      return response.data;
     } catch (error: any) {
       throw new Error(
         error.response?.data?.error ||

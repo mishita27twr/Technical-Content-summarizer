@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Zap, List, UploadCloud, Download } from "lucide-react";
+import { Zap, List, UploadCloud, Download, ChartBar, MessageCircle } from "lucide-react";
 
 export default function FeatureCards() {
   const features = [
@@ -12,6 +12,11 @@ export default function FeatureCards() {
       icon: <List className="h-6 w-6" />,
       title: "Multiple Formats",
       description: "Choose between quick overviews, detailed analyses, or actionable bullet points based on your needs."
+    },
+    {
+      icon: <MessageCircle className="h-6 w-6" />,
+      title: "Chat with the Content",
+      description: "Ask questions from your uploaded files, pasted text, or YouTube transcripts and get context-aware answers."
     },
     {
       icon: <UploadCloud className="h-6 w-6" />,

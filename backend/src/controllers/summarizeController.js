@@ -1,3 +1,11 @@
+import { v4 as uuidv4 } from "uuid";
+import { saveSession } from "../services/sessionStore.js";
+import { chunkText } from "../services/chunkText.js";
+import { getEmbedding } from "../services/embeddingService.js";
+import {
+  isYouTubeUrl,
+  extractYouTubeTranscript,
+} from "../utils/extractYouTubeTranscript.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -11,6 +19,9 @@ const groq = new Groq({
 export const summarizeText = async (req, res) => {
   try {
     let { text, summaryType } = req.body;
+    if (text && isYouTubeUrl(text.trim())) {
+  text = await extractYouTubeTranscript(text.trim());
+}
 
     if (req.file) {
       text = await extractTextFromFile(req.file);
@@ -21,6 +32,13 @@ export const summarizeText = async (req, res) => {
         message: "Text is required",
       });
     }
+
+    const MAX_WORDS = 2500;
+
+const safeText = text
+  .split(" ")
+  .slice(0, MAX_WORDS)
+  .join(" ");
 
     const completion = await groq.chat.completions.create({
       model: "llama-3.1-8b-instant",
@@ -65,7 +83,7 @@ Each bullet point must start with "-".
 5. Make the response clean and readable.
 
 Text:
-${text}
+${safeText}
           `,
         },
       ],
@@ -73,10 +91,31 @@ ${text}
 
     const summary = completion.choices[0].message.content;
 
-    res.status(200).json({
-      success: true,
-      summary,
-    });
+const chunks = chunkText(safeText);
+
+const chunksWithEmbeddings = await Promise.all(
+  chunks.map(async (chunk) => ({
+    text: chunk,
+    embedding: await getEmbedding(chunk),
+  }))
+);
+
+const sessionId = uuidv4();
+
+saveSession(sessionId, {
+  originalText: safeText,
+  chunks,
+  chunksWithEmbeddings,
+  summary,
+  summaryType: summaryType || "short",
+  createdAt: new Date(),
+});
+
+res.status(200).json({
+  success: true,
+  summary,
+  sessionId,
+});
   } catch (error) {
     console.log(error);
 

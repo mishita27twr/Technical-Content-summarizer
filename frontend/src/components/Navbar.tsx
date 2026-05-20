@@ -13,7 +13,7 @@ export default function Navbar() {
             <Sparkles className="h-5 w-5 text-primary" data-testid="icon-logo" />
           </div>
           <span className="font-display font-bold text-xl tracking-tight">
-            SummarizeMate<span className="text-primary">.AI</span>
+            Context<span className="text-primary">.AI</span>
           </span>
         </div>
         
