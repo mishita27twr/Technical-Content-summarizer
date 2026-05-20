@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import summarizeRoutes from "./routes/summarizeRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
 
 dotenv.config();
 
@@ -25,6 +26,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/summarize", summarizeRoutes);
+app.use("/api/chat", chatRoutes);
 
 app.get("/", (req, res) => {
   res.send("SummarizeMate AI Backend is running");

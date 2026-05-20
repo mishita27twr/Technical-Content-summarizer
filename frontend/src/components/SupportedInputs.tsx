@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FileText, Mail, BookOpen, FileDigit, Code, File } from "lucide-react";
+import { FileText, Mail, BookOpen, FileDigit, Code, File, Video, YoutubeIcon } from "lucide-react";
 
 export default function SupportedInputs() {
   const inputs = [
@@ -8,7 +8,8 @@ export default function SupportedInputs() {
     { icon: <Mail className="h-6 w-6" />, label: "Long Emails" },
     { icon: <FileDigit className="h-6 w-6" />, label: "Documentation" },
     { icon: <Code className="h-6 w-6" />, label: "Stories & Books" },
-    { icon: <File className="h-6 w-6" />, label: "Uploaded Files" },
+    { icon: <File className="h-6 w-6" />, label: "Images" },
+    { icon: <YoutubeIcon className="h-6 w-6" />, label: "YouTube Links" },
   ];
 
   return (

@@ -39,7 +39,7 @@ export default function Hero() {
           variants={itemVariants}
           className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
         >
-          AI-powered summaries for articles, papers, emails, docs, and more — in seconds. Get the clarity you need to move faster.
+          AI-powered summaries for articles, research papers, emails, docs, youtube links and more — in seconds. Get the clarity you need to move faster.
         </motion.p>
       </motion.div>
     </section>

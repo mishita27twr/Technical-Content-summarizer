@@ -13,6 +13,16 @@ export default function SummarizerBox() {
   const [text, setText] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [summaryType, setSummaryType] = useState<SummaryType>("Short");
+  const [sessionId, setSessionId] = useState("");
+  const [question, setQuestion] = useState("");
+  const [chatAnswer, setChatAnswer] = useState("");
+  const [chatLoading, setChatLoading] = useState(false);
+  type ChatMessage = {
+  question: string;
+  answer: string;
+};
+
+const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -26,6 +36,11 @@ export default function SummarizerBox() {
     setResult(null);
     setError(null);
     setCopied(false);
+
+    setSessionId("");
+    setQuestion("");
+    setChatAnswer("");
+    setChatHistory([]);
 
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -48,15 +63,18 @@ export default function SummarizerBox() {
     setResult(null);
 
     try {
-      let resText = "";
+      let response;
 
       if (activeTab === "text") {
-        resText = await summarizeApi.summarizeText(text, summaryType);
+        response = await summarizeApi.summarizeText(text, summaryType);
       } else if (activeTab === "file" && file) {
-        resText = await summarizeApi.summarizeFile(file, summaryType);
+        response = await summarizeApi.summarizeFile(file, summaryType);
       }
 
-      setResult(resText);
+      if (response) {
+  setResult(response.summary);
+  setSessionId(response.sessionId);
+}
     } catch (err: any) {
       setError(err.message || "Something went wrong.");
     } finally {
@@ -64,14 +82,88 @@ export default function SummarizerBox() {
     }
   };
 
+  const handleChat = async () => {
+  if (!question.trim()) {
+    setError("Please enter a question.");
+    return;
+  }
+
+  if (!sessionId) {
+    setError("Please summarize content first before chatting.");
+    return;
+  }
+
+  try {
+    setChatLoading(true);
+    setError(null);
+
+    const response = await fetch(
+      `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/chat`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sessionId,
+          question,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Chat failed");
+    }
+
+    setChatHistory((prev) => [
+  ...prev,
+  {
+    question,
+    answer: "",
+  },
+]);
+
+const currentQuestion = question;
+setQuestion("");
+
+let index = 0;
+const fullAnswer = data.answer;
+
+const interval = setInterval(() => {
+  index++;
+
+  setChatHistory((prev) => {
+    const updated = [...prev];
+
+    updated[updated.length - 1] = {
+      question: currentQuestion,
+      answer: fullAnswer.slice(0, index),
+    };
+
+    return updated;
+  });
+
+  if (index >= fullAnswer.length) {
+    clearInterval(interval);
+  }
+}, 15);
+  } catch (err: any) {
+    setError(err.message || "Something went wrong while chatting.");
+  } finally {
+    setChatLoading(false);
+  }
+};
+
   const handleCopy = () => {
-    if (!result) return;
+  if (!result) return;
 
-    navigator.clipboard.writeText(result);
-    setCopied(true);
+  navigator.clipboard.writeText(result);
+  setCopied(true);
 
-    setTimeout(() => setCopied(false), 2000);
-  };
+  setTimeout(() => setCopied(false), 2000);
+};
 
   const handleDownload = () => {
     if (!result) return;
@@ -162,7 +254,7 @@ export default function SummarizerBox() {
               transition={{ duration: 0.2 }}
             >
               <Textarea
-                placeholder="Paste your article, email, research paper, or notes here..."
+                placeholder="Paste your Article, Email, Research Paper, Youtube link or Notes here..."
                 className="min-h-[200px] resize-y bg-background/50 border-border focus:border-primary/50 text-base"
                 value={text}
                 onChange={(e) => {
@@ -259,8 +351,7 @@ export default function SummarizerBox() {
             )}
           </Button>
         </div>
-
-        <AnimatePresence>
+                <AnimatePresence>
           {error && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
@@ -303,6 +394,65 @@ export default function SummarizerBox() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {result && sessionId && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-6 border border-border rounded-xl bg-background/80 overflow-hidden"
+          >
+            <div className="p-6">
+              <h2 className="text-lg font-semibold mb-3">
+                Chat with this content
+              </h2>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <input
+                  type="text"
+                  value={question}
+                  onChange={(e) => setQuestion(e.target.value)}
+                  placeholder="Ask anything from this content..."
+                  className="flex-1 px-4 py-3 rounded-lg bg-background border border-border focus:outline-none focus:border-primary"
+                />
+
+                <Button onClick={handleChat} disabled={chatLoading}>
+                  {chatLoading ? "Thinking..." : "Ask"}
+                </Button>
+              </div>
+
+              
+                {chatHistory.length > 0 && (
+  <div className="mt-4 space-y-4">
+    {chatHistory.map((chat, index) => (
+      <div
+        key={index}
+        className="p-4 rounded-lg bg-muted/50 border border-border relative"
+      >
+        <button
+          onClick={() => {
+            setChatHistory((prev) =>
+              prev.filter((_, i) => i !== index)
+            );
+          }}
+          className="absolute top-3 right-3 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 transition-all"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        <p className="font-semibold mb-2 pr-8">
+          You: {chat.question}
+        </p>
+
+        <p className="whitespace-pre-wrap leading-relaxed">
+          AI: {chat.answer}
+        </p>
+      </div>
+    ))}
+  </div>
+)}
+            </div>
+          </motion.div>
+        )}
       </div>
     </motion.div>
   );
