@@ -12,17 +12,30 @@ console.log(
   process.env.GROQ_API_KEY ? "YES" : "NO"
 );
 
-if (process.env.GROQ_API_KEY) {
-  console.log(
-    "Key starts with:",
-    process.env.GROQ_API_KEY.slice(0, 8)
-  );
-}
 console.log("=================================");
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://technical-content-summarizer-obq3.vercel.app",
+  "https://technical-content-summarizer-e.vercel.app",
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.use("/api/summarize", summarizeRoutes);
