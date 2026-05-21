@@ -29,7 +29,7 @@ app.use("/api/summarize", summarizeRoutes);
 app.use("/api/chat", chatRoutes);
 
 app.get("/", (req, res) => {
-  res.send("SummarizeMate AI Backend is running");
+  res.send("Context AI Backend is running");
 });
 
 const PORT = process.env.PORT || 5000;
