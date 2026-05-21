@@ -2,6 +2,7 @@ import fs from "fs";
 import Tesseract from "tesseract.js";
 import mammoth from "mammoth";
 import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
+import officeParser from "officeparser";
 
 export const extractTextFromFile = async (file) => {
   const filePath = file.path;
@@ -36,6 +37,14 @@ export const extractTextFromFile = async (file) => {
   }
 
   if (
+  mimeType === "application/vnd.ms-powerpoint" ||
+  mimeType === "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+) {
+  const data = await officeParser.parseOfficeAsync(filePath);
+  return data;
+}
+
+  if (
   mimeType === "image/png" ||
   mimeType === "image/jpeg" ||
   mimeType === "image/jpg"
@@ -48,5 +57,5 @@ export const extractTextFromFile = async (file) => {
   return result.data.text;
 }
 
-  throw new Error("Unsupported file type. Please upload TXT, PDF, or DOCX files.");
+  throw new Error("Unsupported file type. Please upload TXT, PDF, DOCX, PPT, PPTX, JPG, JPEG, or PNG files.");
 };
