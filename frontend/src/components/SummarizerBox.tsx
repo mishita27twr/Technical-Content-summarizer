@@ -280,7 +280,7 @@ const interval = setInterval(() => {
                   ref={fileInputRef}
                   className="hidden"
                   onChange={handleFileChange}
-                  accept=".txt,.pdf,.png,.jpg,.jpeg,.doc,.docx"
+                  accept=".txt,.pdf,.png,.jpg,.jpeg,.doc,.docx,.ppt,.pptx"
                 />
 
                 <motion.div
@@ -301,7 +301,7 @@ const interval = setInterval(() => {
                 <p className="text-muted-foreground text-sm">
                   {file
                     ? `${(file.size / 1024).toFixed(1)} KB`
-                    : "Supports TXT, PDF, DOCX, JPG, JPEG, PNG"}
+                    : "Supports TXT, PDF, DOCX, PPTX, JPG, JPEG, PNG"}
                 </p>
               </div>
             </motion.div>
