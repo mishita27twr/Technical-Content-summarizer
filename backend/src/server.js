@@ -18,7 +18,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://technical-content-summarizer-obq3.vercel.app",
+  "https://technical-content-summarizer-j146.vercel.app",
   "https://technical-content-summarizer-e.vercel.app",
 ];
 
