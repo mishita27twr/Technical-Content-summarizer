@@ -1,236 +1,128 @@
-# Technical Content Summarizer
+# Context AI – Technical Content Summarizer & Document Assistant
 
 <p align="center">
-  <img src="https://img.shields.io/badge/React-Vite-blue?style=for-the-badge&logo=react" />
-  <img src="https://img.shields.io/badge/Frontend-TailwindCSS-38B2AC?style=for-the-badge&logo=tailwind-css" />
-  <img src="https://img.shields.io/badge/API-AI%20Powered-purple?style=for-the-badge" />
-</p>
-
-<p align="center">
-  An AI-powered web application that summarizes long technical articles, blogs, and content into short, readable summaries instantly.
-</p>
-
-
-#  Live Demo
-
-<p align="center">
-  <a href="https://technical-content-summarizer-j146-k2twop66e.vercel.app/" target="_blank">
-    <img src="https://img.shields.io/badge/Live-Demo-6C63FF?style=for-the-badge" alt="Live Demo"/>
+  <a href="https://technical-content-summarizer-j146-k2twop66e.vercel.app/">
+    <img src="https://img.shields.io/badge/🚀%20Live%20Demo-Try%20Now-blue?style=for-the-badge" alt="Live Demo"/>
   </a>
 </p>
 
+## Overview
 
-# About The Project
+Context AI is an AI-powered document intelligence platform that enables users to upload PDFs, text files, and images, generate intelligent summaries, and interact with documents through context-aware conversations. By leveraging Google Gemini AI, the platform helps users quickly extract insights, understand complex technical content, and obtain accurate answers directly from uploaded documents.
 
-Technical Content Summarizer is an AI-based web application designed to help users quickly understand lengthy technical articles without reading the full content.
+Whether analyzing research papers, technical documentation, study materials, or reports, Context AI transforms lengthy content into actionable knowledge through AI-powered summarization and document chat.
+---
+# 📸 Screenshots
 
-Users simply paste the URL of an article, and the application generates a concise AI summary using modern NLP-based summarization APIs.
+### Home Page
+![Home Page](screenshots/Home.png)
 
-This project was built to improve productivity for students, developers, and researchers who regularly consume technical content but want faster understanding and better time management.
+### Document Upload
+![Upload](screenshots/Upload.png)
+
+### AI Summary Generation
+![Summary](screenshots/Summary.png)
+
+### Document Chat
+![Chat](screenshots/chat.png)
+
+## Features
+
+* Upload PDF, TXT, JPG, JPEG, PNG files and Youtube Links as well.
+* AI-powered technical content analysis
+* Multiple summary formats:
+
+  * Short Summary
+  * Detailed Summary
+  * Bullet Point Summary
+* Chat with uploaded documents
+* Ask questions about document content
+* Fast and responsive user experience
+* Modern and user-friendly interface
+* Full-stack deployment
 
 ---
 
-# Features
+## Tech Stack
 
-* Summarize articles using URL input
-* AI-generated concise summaries
-* Summary history saving using Local Storage
-* Copy-to-clipboard functionality
-* Fast and responsive UI
-* Modern glassmorphism-inspired interface
-* Fully responsive design
-* Clean developer-friendly layout
-
-
-## Project Architecture
-
-## Frontend
-
-The frontend of the application was built using:
+### Frontend
 
 * React.js
+* TypeScript
 * Vite
 * Tailwind CSS
-* Redux Toolkit
-* RTK Query
+* Axios
 
-The frontend handles the user interface, URL input, displaying summaries, loading states, and responsive design.
-
----
-
-## Backend
-
-The backend is responsible for handling API requests and connecting the frontend with the AI summarization service.
-
-Technologies used:
+### Backend
 
 * Node.js
 * Express.js
+* Multer
 
-The backend processes incoming article URLs, communicates securely with the summarization API, and returns generated summaries to the frontend.
+### AI
 
----
+* Google Gemini API
 
-## AI API Integration
+### Deployment
 
-The application uses an AI-powered summarization API to generate concise summaries from long technical articles.
-
-Features handled by the API:
-
-* Article extraction
-* Natural language summarization
-* Fast response generation
-* Content processing
+* Vercel (Frontend)
+* Render (Backend)
 
 ---
 
-# Deployment
+## How It Works
 
-## Frontend Deployment
+1. Upload a document or image.
+2. Content is extracted from the uploaded file.
+3. Gemini AI analyzes the content.
+4. Users can:
 
-The frontend was deployed using:
-
-* Vercel
-
-Benefits:
-
-* Fast global CDN
-* Automatic deployments from GitHub
-* Easy custom domain support
-
----
-
-## Backend Deployment
-
-The backend server was deployed using:
-
-* Render
-
-Benefits:
-
-* Easy Node.js deployment
-* Environment variable support
-* Continuous deployment integration
+   * Generate summaries
+   * View key information
+   * Chat with the document
+   * Ask context-aware questions
+5. Results are displayed instantly through the web interface.
 
 ---
 
-# Environment Variables
+## Use Cases
 
-To run this project locally, create a `.env` file and add the following:
-
-```env
-VITE_API_URL=your_backend_url
-API_KEY=your_api_key
-```
-
-# Full Workflow
-
-1. User enters article URL in frontend.
-2. Frontend sends request to backend API.
-3. Backend validates the request.
-4. Backend communicates with AI summarization API.
-5. AI generates summary.
-6. Backend returns processed summary.
-7. Frontend displays the final summarized content.
-
-
-# How It Works
-
-1. User enters the URL of a technical article.
-2. The application sends the URL to the AI summarization API.
-3. The API processes the article content.
-4. AI generates a short meaningful summary.
-5. The summarized content is displayed instantly on the screen.
-6. Previous summaries are saved locally for future access.
+* Research Paper Analysis
+* Technical Documentation Review
+* Study Notes Generation
+* Knowledge Extraction
+* Academic Learning
+* Developer Documentation Understanding
 
 ---
 
-# ⚙️ Installation & Setup
+## Challenges Faced
 
-## Clone the Repository
+* Processing multiple file formats efficiently
+* Managing large document inputs for AI processing
+* Maintaining conversation context during document chat
+* Handling frontend-backend communication
+* Deployment and API integration
 
-```bash
-git clone https://github.com/mishita27twr/Technical-Content-summarizer.git
-```
+---
 
-## Navigate into the Project
+## What I Learned
 
-```bash
-cd Technical-Content-summarizer
-```
+* Full-Stack Web Development
+* AI API Integration
+* File Upload & Processing
+* REST API Development
+* React & TypeScript
+* Backend Deployment
+* Error Handling & Debugging
+* Building Real-World AI Applications
 
-## Install Dependencies
+## Author
 
-```bash
-npm install
-```
+**Mishita Tiwari**
 
-## Start Development Server
+B.Tech CSE (AI & ML)
 
-```bash
-npm run dev
-```
+GitHub: https://github.com/mishita27twr
 
-# Challenges Faced During Development
-
-Building this project was a great learning experience and involved solving several real-world frontend development challenges.
-
-## 🔹 API Integration Issues
-
-Connecting the summarization API and handling asynchronous requests properly required careful state management.
-
-## 🔹 CORS Errors
-
-During development, API requests sometimes failed because of CORS policy restrictions, which required debugging and configuration fixes.
-
-## 🔹 State Management Complexity
-
-Managing loading states, error states, and API responses efficiently became easier after implementing Redux Toolkit and RTK Query.
-
-## 🔹 Responsive Design
-
-Making the UI responsive across mobile, tablet, and desktop devices required multiple layout adjustments and testing.
-
-## 🔹 Handling Invalid URLs
-
-Special validation logic had to be implemented to prevent invalid or broken article links from crashing the application.
-
-
-# What I Learned
-
-Through this project, I improved my understanding of:
-
-* API integration in React
-* Redux Toolkit & RTK Query
-* Tailwind CSS styling
-* React component architecture
-* Error handling
-* State management
-* Building responsive UIs
-* Deploying frontend applications
-
-
-# Future Improvements
-
-* PDF summarization support
-* Upload document feature
-* Multi-language summaries
-* Text-to-speech summaries
-* Download summary as PDF
-* Keyword extraction feature
-
-
-# Author
-
-Made with by Mishita Tiwari
-
-* GitHub: https://github.com/mishita27twr
-
-
-# Support
-
-If you liked this project:
-
-* Give it a ⭐ on GitHub
-* Fork the repository
-* Share it with others
+If you found this project interesting, consider giving it a star on GitHub.
