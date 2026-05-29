@@ -8,7 +8,7 @@
 
 ## Overview
 
-Context AI is an AI-powered document intelligence platform that enables users to upload PDFs, text files, and images, generate intelligent summaries, and interact with documents through context-aware conversations. By leveraging Google Gemini AI, the platform helps users quickly extract insights, understand complex technical content, and obtain accurate answers directly from uploaded documents.
+Context AI is an AI-powered document intelligence platform that enables users to upload PDFs, text files, and images, generate intelligent summaries, and interact with documents through context-aware conversations. By leveraging Gorq AI, the platform helps users quickly extract insights, understand complex technical content, and obtain accurate answers directly from uploaded documents.
 
 Whether analyzing research papers, technical documentation, study materials, or reports, Context AI transforms lengthy content into actionable knowledge through AI-powered summarization and document chat.
 ---
@@ -61,7 +61,7 @@ Whether analyzing research papers, technical documentation, study materials, or 
 
 ### AI
 
-* Google Gemini API
+* Gorq API
 
 ### Deployment
 
@@ -120,8 +120,6 @@ Whether analyzing research papers, technical documentation, study materials, or 
 ## Author
 
 **Mishita Tiwari**
-
-B.Tech CSE (AI & ML)
 
 GitHub: https://github.com/mishita27twr
 
